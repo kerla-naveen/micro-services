@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    import: optional:file:.env
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_db
+    username: app_user
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: ORDER_SERVICE

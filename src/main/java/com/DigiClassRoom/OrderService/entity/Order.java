@@ -26,7 +26,7 @@ public class Order {
     private long quantity;
 
     @Column(name = "ORDER_DATE")
-    private Instant orderData;
+    private Instant orderDate;
 
     @Column(name = "STATUS")
     private String orderStatus;

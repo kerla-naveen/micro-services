@@ -3,7 +3,9 @@ server:
 
 spring:
   config:
-    import: optional:file:.env
+    import:
+      - optional:file:.env
+      - optional:configserver:http://localhost:9296
   datasource:
     url: jdbc:mysql://localhost:3306/product_db
     username: app_user
@@ -21,11 +23,11 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
 
-eureka:
-  instances:
-    prefer-ip-address : true
-  client:
-    fetch-registry: true
-    registry-with-eureka: true
-    service-url :
-      default-Zone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+#eureka:
+#  instances:
+#    prefer-ip-address : true
+#  client:
+#    fetch-registry: true
+#    registry-with-eureka: true
+#    service-url :
+#      default-Zone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}

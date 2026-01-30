@@ -1,7 +1,9 @@
 package com.DigiClassRoom.paymentService.service;
 
 import com.DigiClassRoom.paymentService.entity.TransactionalDetails;
+import com.DigiClassRoom.paymentService.model.PaymentMode;
 import com.DigiClassRoom.paymentService.model.PaymentRequest;
+import com.DigiClassRoom.paymentService.model.PaymentResponse;
 import com.DigiClassRoom.paymentService.repository.TransactionalDetailsRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService{
                         .paymentDate(Instant.now())
                         .paymentMode(paymentRequest.getPaymentMode().name())
                         .ReferenceNumber(paymentRequest.getReferenceNumber())
+                        .orderId(paymentRequest.getOderId())
                         .amount(paymentRequest.getAmount())
                         .paymentStatus("SUCCESS")
                         .build();
@@ -33,4 +36,22 @@ public class PaymentServiceImpl implements PaymentService{
         log.info("payment done successfully:{}",transactionalDetails.getId());
         return transactionalDetails.getId();
     }
+
+    @Override
+    public PaymentResponse getPaymentDetailsByOrderId(long orderId) {
+
+        TransactionalDetails transactionalDetails=
+                transactionalDetailsRepository.findByOrderId(orderId);
+
+        PaymentResponse paymentResponse=
+                PaymentResponse.builder()
+                        .paymentId(transactionalDetails.getId())
+                        .Status(transactionalDetails.getPaymentStatus())
+                        .paymentMode(PaymentMode.valueOf(transactionalDetails.getPaymentMode()))
+                        .amount(transactionalDetails.getAmount())
+                        .orderId(transactionalDetails.getOrderId())
+                        .build();
+        return paymentResponse;
+    }
+
 }

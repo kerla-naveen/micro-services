@@ -1,6 +1,7 @@
 package com.DigiClassRoom.OrderService.controller;
 
 import com.DigiClassRoom.OrderService.model.OrderRequest;
+import com.DigiClassRoom.OrderService.model.OrderResponse;
 import com.DigiClassRoom.OrderService.service.OrderService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,13 @@ public class OrderController {
         Long orderId=orderService.placeOrder(orderRequest);
         log.info("orderId:{}",orderId);
         return new ResponseEntity<>(orderId, HttpStatus.OK);
+    }
+
+    @GetMapping("{orderId}")
+    ResponseEntity<OrderResponse> getOrderDetails(@PathVariable long orderId ){
+        return  new ResponseEntity<>(
+                orderService.getOrderDetails(orderId),
+                HttpStatus.OK
+        );
     }
 }

@@ -5,6 +5,7 @@ import com.DigiClassRoom.OrderService.exception.CustomException;
 import com.DigiClassRoom.OrderService.external.client.PaymentService;
 import com.DigiClassRoom.OrderService.external.client.ProductService;
 import com.DigiClassRoom.OrderService.external.request.PaymentRequest;
+import com.DigiClassRoom.OrderService.external.response.PaymentResponse;
 import com.DigiClassRoom.OrderService.external.response.ProductResponse;
 import com.DigiClassRoom.OrderService.model.OrderRequest;
 import com.DigiClassRoom.OrderService.model.OrderResponse;
@@ -53,7 +54,7 @@ public class OrderServiceImpl implements OrderService{
         PaymentRequest paymentRequest= PaymentRequest.builder()
                 .oderId(order.getId())
                 .paymentMode(orderRequest.getPaymentMode())
-                .amount(orderRequest.getQuantity())
+                .amount(orderRequest.getTotalAmount())
                 .build();
 
         String orderStatus=null;
@@ -92,6 +93,21 @@ public class OrderServiceImpl implements OrderService{
                         .quantity(productResponse.getQuantity())
                         .build();
 
+        log.info("fetching payment details for orderId:{}",order.getId());
+        PaymentResponse paymentResponse
+                =restTemplate.getForObject(
+                        "http://PAYMENT-SERVICE/payment/order/"+order.getId(),
+                PaymentResponse.class
+                );
+        OrderResponse.PaymentDetails paymentDetails
+                =OrderResponse.PaymentDetails.builder()
+                .paymentId(paymentResponse.getPaymentId())
+                .paymentDate(paymentResponse.getPaymentDate())
+                .Status(paymentResponse.getStatus())
+                .amount(paymentResponse.getAmount())
+                .paymentDate(paymentResponse.getPaymentDate())
+                .build();
+
         OrderResponse orderResponse=
                 OrderResponse.builder()
                         .orderId(order.getId())
@@ -99,6 +115,7 @@ public class OrderServiceImpl implements OrderService{
                         .orderStatus(order.getOrderStatus())
                         .amount(order.getAmount())
                         .productDetails(productDetails)
+                        .paymentDetails(paymentDetails)
                         .build();
         return orderResponse;
     }

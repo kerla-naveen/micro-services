@@ -6,7 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.Customizer;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class CloudGatewayApplication {
@@ -25,4 +29,32 @@ public class CloudGatewayApplication {
 					).build()
 			);
 		}
+
+		@Bean
+	public RouteLocator foodiesRouteConfig(RouteLocatorBuilder routeLocatorBuilder){
+		return  routeLocatorBuilder.routes()
+				.route(p-> p
+						.path("/foodies/product/**")
+						.filters( f ->f.rewritePath("/foodies/product(?<segment>.*)","/product${segment}")
+								.addResponseHeader("X-Response-Header", LocalDateTime.now().toString())
+						)
+						.uri("lb://PRODUCT-SERVICE")
+				)
+				.route(p->p
+						.path("/foodies/order/**")
+						.filters(f-> f.rewritePath("/foodies/order(?<segment>.*)", "/order${segment}")
+								.addResponseHeader("X-Response-Header",LocalDateTime.now().toString())
+						)
+						.uri("lb://ORDER-SERVICE")
+				)
+				.route(p->p
+						.path("/foodies/payment/**")
+						.filters(f-> f.rewritePath("/foodies/payment(?<segment>.*)","/payment${segment}")
+								.addResponseHeader("X-Response-Header",LocalDateTime.now().toString())
+						)
+						.uri("lb://PAYMENT-SERVICE")
+				)
+				.build();
+
+	}
 }

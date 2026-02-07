@@ -13,10 +13,10 @@ spring:
           clone-on-start: true
 
 eureka:
-  instances:
+  instance:
     prefer-ip-address : true
   client:
     fetch-registry: true
-    registry-with-eureka: true
+    register-with-eureka: true
     service-url :
       default-Zone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}

@@ -5,7 +5,7 @@ spring:
   application:
     name: CLOUD-GATEWAY
   config:
-    import: configserver:http://localhost:9296
+    import: configserver:${CONFIGSERVER:http://localhost:9296}
   cloud:
     gateway:
       server:
@@ -30,5 +30,13 @@ spring:
               predicates:
                 - Path=/product/**
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
 
 

@@ -29,14 +29,40 @@ spring:
               uri: lb://PRODUCT-SERVICE
               predicates:
                 - Path=/product/**
+#          httpclient:
+#            response-timeout: 5
+#            connect-timeout: 1000
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      external:
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state:
+          seconds: 10
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+  health :
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
   endpoint:
     health:
       show-details: always
+
+      probes:
+        enabled: true
 
 

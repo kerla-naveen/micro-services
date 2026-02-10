@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.DigiClassRoom</groupId>
 	<artifactId>CloudGateway</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>CloudGateway</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -129,6 +129,20 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+
+				<configuration>
+					<from>openjdk:17</from>
+					<to>
+						<image>naveenkerla/cloudgateway</image>
+						<tag>${project.version}</tag>
+					</to>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 

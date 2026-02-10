@@ -82,8 +82,7 @@ public class OrderServiceImpl implements OrderService{
                         404));
 
         log.info("fetching the productDetails for orderId:{}",order.getId());
-        ProductResponse productResponse=
-                restTemplate.getForObject("http://PRODUCT-SERVICE/product/"+order.getProductId(), ProductResponse.class);
+        ProductResponse productResponse= productService.getProductById(order.getProductId()).getBody();
 
         OrderResponse.ProductDetails productDetails=
                 OrderResponse.ProductDetails.builder()
@@ -94,11 +93,8 @@ public class OrderServiceImpl implements OrderService{
                         .build();
 
         log.info("fetching payment details for orderId:{}",order.getId());
-        PaymentResponse paymentResponse
-                =restTemplate.getForObject(
-                        "http://PAYMENT-SERVICE/payment/order/"+order.getId(),
-                PaymentResponse.class
-                );
+
+        PaymentResponse paymentResponse=paymentService.getPaymentDetailsByOrderId(order.getId());
         OrderResponse.PaymentDetails paymentDetails
                 =OrderResponse.PaymentDetails.builder()
                 .paymentId(paymentResponse.getPaymentId())

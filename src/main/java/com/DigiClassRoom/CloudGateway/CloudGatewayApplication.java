@@ -9,7 +9,9 @@ import org.springframework.cloud.client.circuitbreaker.Customizer;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @SpringBootApplication
@@ -37,6 +39,10 @@ public class CloudGatewayApplication {
 						.path("/foodies/product/**")
 						.filters( f ->f.rewritePath("/foodies/product(?<segment>.*)","/product${segment}")
 								.addResponseHeader("X-Response-Header", LocalDateTime.now().toString())
+								.retry(retryConfig -> retryConfig.setRetries(3)
+										.setMethods(HttpMethod.GET,HttpMethod.DELETE)
+										.setBackoff(Duration.ofMillis(100),Duration.ofMillis(1000),2,true)
+								)
 						)
 						.uri("lb://PRODUCT-SERVICE")
 				)

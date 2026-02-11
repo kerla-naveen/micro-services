@@ -29,9 +29,12 @@ spring:
               uri: lb://PRODUCT-SERVICE
               predicates:
                 - Path=/product/**
-#          httpclient:
-#            response-timeout: 5
-#            connect-timeout: 1000
+
+#            - id: ORDER-SERVICE-DOCS
+#              uri: lb://ORDER-SERVICE
+#              predicates:
+#                - Path= /order/v3/api-docs
+#                - Path= /order/swagger-ui.html
 
 
 resilience4j:
@@ -65,4 +68,17 @@ management:
       probes:
         enabled: true
 
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: order service
+        url: order/v3/api-docs
+
+      - name: payment service
+        url : payment/v3/api-docs
+
+      - name: product service
+        url: product/v3/api-docs
 

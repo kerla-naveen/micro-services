@@ -22,3 +22,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
+
+
+springdoc:
+  swagger-ui:
+    path: payment/swagger-ui.html
+  api-docs:
+    path: payment/v3/api-docs

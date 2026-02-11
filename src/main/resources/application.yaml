@@ -48,3 +48,9 @@ management:
   endpoint:
     health:
       show-details: always
+
+springdoc:
+  swagger-ui:
+    path: order/swagger-ui.html
+  api-docs:
+    path: order/v3/api-docs

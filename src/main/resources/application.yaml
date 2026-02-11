@@ -22,12 +22,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
-
-#eureka:
-#  instances:
-#    prefer-ip-address : true
-#  client:
-#    fetch-registry: true
-#    registry-with-eureka: true
-#    service-url :
-#      default-Zone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+springdoc:
+  swagger-ui:
+    path: product/swagger-ui.html
+  api-docs:
+    path: product/v3/api-docs

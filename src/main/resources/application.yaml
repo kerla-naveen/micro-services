@@ -29,6 +29,12 @@ spring:
               uri: lb://PRODUCT-SERVICE
               predicates:
                 - Path=/product/**
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      connect-timeout: 2s
+      timeout: 1s
 
 #            - id: ORDER-SERVICE-DOCS
 #              uri: lb://ORDER-SERVICE

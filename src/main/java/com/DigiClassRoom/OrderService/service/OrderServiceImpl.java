@@ -31,8 +31,6 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     PaymentService paymentService;
 
-    @Autowired
-    RestTemplate restTemplate;
 
     @Override
     public Long placeOrder(OrderRequest orderRequest) {

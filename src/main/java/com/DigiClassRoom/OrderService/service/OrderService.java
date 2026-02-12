@@ -7,4 +7,6 @@ public interface OrderService {
     Long placeOrder(OrderRequest orderRequest);
 
     OrderResponse getOrderDetails(long orderId);
+
+    Long deleteOrderByOrderId(Long orderId);
 }

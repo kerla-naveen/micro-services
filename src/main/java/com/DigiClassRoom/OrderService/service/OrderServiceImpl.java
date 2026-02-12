@@ -12,6 +12,7 @@ import com.DigiClassRoom.OrderService.model.OrderResponse;
 import com.DigiClassRoom.OrderService.repository.OrderRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -114,5 +115,18 @@ public class OrderServiceImpl implements OrderService{
                         .paymentDetails(paymentDetails)
                         .build();
         return orderResponse;
+    }
+
+    @Override
+    public Long deleteOrderByOrderId(Long orderId) {
+        log.info("delete order by orderId:{}",orderId);
+        Order order=orderRepository.findById(orderId)
+                .orElseThrow(()-> new CustomException(
+                        "order not found for given orderId:"+orderId,
+                        "ORDER_NOT_FOUND",
+                        404
+                ));
+        orderRepository.delete(order);
+        return orderId;
     }
 }

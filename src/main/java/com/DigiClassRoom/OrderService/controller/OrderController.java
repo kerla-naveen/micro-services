@@ -24,11 +24,19 @@ public class OrderController {
         return new ResponseEntity<>(orderId, HttpStatus.OK);
     }
 
-    @GetMapping("{orderId}")
+    @GetMapping("/{orderId}")
     ResponseEntity<OrderResponse> getOrderDetails(@PathVariable long orderId ){
         return  new ResponseEntity<>(
                 orderService.getOrderDetails(orderId),
                 HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("/{orderId}")
+    ResponseEntity<Long> deleteOrderByOrderId(@PathVariable Long orderId){
+        return new ResponseEntity<>(
+          orderService.deleteOrderByOrderId(orderId),
+          HttpStatus.OK
         );
     }
 }

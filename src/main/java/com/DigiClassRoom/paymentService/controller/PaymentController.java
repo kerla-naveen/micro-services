@@ -1,5 +1,6 @@
 package com.DigiClassRoom.paymentService.controller;
 
+import com.DigiClassRoom.paymentService.model.PaymentAPIContactInfo;
 import com.DigiClassRoom.paymentService.model.PaymentRequest;
 import com.DigiClassRoom.paymentService.model.PaymentResponse;
 import com.DigiClassRoom.paymentService.service.PaymentService;
@@ -15,6 +16,9 @@ public class PaymentController {
     @Autowired
     PaymentService paymentService;
 
+    @Autowired
+    PaymentAPIContactInfo paymentAPIContactInfo;
+
     @PostMapping
     ResponseEntity<Long> doPayment(@RequestBody PaymentRequest paymentRequest){
         return  new ResponseEntity<>(
@@ -28,6 +32,14 @@ public class PaymentController {
         return new ResponseEntity<>(
                 paymentService.getPaymentDetailsByOrderId(orderId),
                 HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/api-contactInfo")
+    ResponseEntity<PaymentAPIContactInfo> getAPIContactInfo(){
+        return new ResponseEntity<>(
+          paymentAPIContactInfo,
+          HttpStatus.OK
         );
     }
 }

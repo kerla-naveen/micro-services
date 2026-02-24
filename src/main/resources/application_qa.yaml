@@ -1,0 +1,20 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+  datasource:
+    url: jdbc:mysql://${MYSQLSERVER:localhost:3306}/payment_db
+    username: app_user
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: PAYMENT-SERVICE
+
+payment:
+  message: "welcome to payment QA testing environment APIS"
+  contactDetails:
+    name: "nayna"
+    email: "tester@digiclassroom.com"
+  onCallSupport:
+    - 88888-77777
+    - 99999-66666

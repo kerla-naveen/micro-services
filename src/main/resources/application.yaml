@@ -4,8 +4,12 @@ server:
 spring:
   config:
     import:
-      - optional:file:.env
       - optional:configserver:${CONFIGSERVER:http://localhost:9296}
+      - "application_prod.yaml"
+      - "application_qa.yaml"
+  profiles:
+    active:
+      - "prod"
   datasource:
     url: jdbc:mysql://${MYSQLSERVER:localhost:3306}/payment_db
     username: app_user
@@ -23,9 +27,18 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
 
-
 springdoc:
   swagger-ui:
     path: payment/swagger-ui.html
   api-docs:
     path: payment/v3/api-docs
+
+
+payment:
+  message: "welcome to payment local environment APIS"
+  contactDetails:
+    name: "nayna"
+    email: "developerdigiclassroom.com"
+  onCallSupport:
+    - 88888-77777
+    - 99999-66666

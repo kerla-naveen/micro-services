@@ -4,9 +4,7 @@ server:
 spring:
   config:
     import:
-      - optional:configserver:${CONFIGSERVER:http://localhost:9296}
-      - "application_prod.yaml"
-      - "application_qa.yaml"
+      - configserver:${CONFIGSERVER:http://localhost:9296}
   profiles:
     active:
       - "prod"
@@ -34,11 +32,11 @@ springdoc:
     path: payment/v3/api-docs
 
 
-payment:
-  message: "welcome to payment local environment APIS"
-  contactDetails:
-    name: "nayna"
-    email: "developerdigiclassroom.com"
-  onCallSupport:
-    - 88888-77777
-    - 99999-66666
+#payment:
+#  message: "welcome to payment local aff environment APIS"
+#  contactDetails:
+#    name: "nayna"
+#    email: "developerdigiclassroom.com"
+#  onCallSupport:
+#    - 88888-77777
+#    - 99999-66666

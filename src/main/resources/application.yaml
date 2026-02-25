@@ -4,13 +4,16 @@ server:
 spring:
   application:
     name: CONFIG-SERVER
-
+  profiles:
+    active: git
   cloud:
     config:
       server:
         git:
           uri: https://github.com/kerla-naveen/spring-app-config
           clone-on-start: true
+          timeout: 5
+          default-label: main
 
 eureka:
   instance:
@@ -20,3 +23,6 @@ eureka:
     register-with-eureka: true
     service-url :
       default-Zone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+
+encrypt:
+  key: 9f3a7c2d8b41e6fa5c90b2d4f7a8c13e6d2b4f9a7c1e8d3f

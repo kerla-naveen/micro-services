@@ -32,11 +32,8 @@ springdoc:
     path: payment/v3/api-docs
 
 
-#payment:
-#  message: "welcome to payment local aff environment APIS"
-#  contactDetails:
-#    name: "nayna"
-#    email: "developerdigiclassroom.com"
-#  onCallSupport:
-#    - 88888-77777
-#    - 99999-66666
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

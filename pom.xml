@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.DigiClassRoom</groupId>
 	<artifactId>serviceRegistry</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>serviceRegistry</name>
 	<description>seriveRegistry with uerka server</description>
 	<url/>
@@ -64,6 +64,19 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+
+				<configuration>
+					<to>
+						<image>naveenkerla/serviceregistry</image>
+						<tags>${project.version}</tags>
+					</to>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 

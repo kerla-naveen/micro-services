@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: CONFIG-SERVER
+    name: config-server
   profiles:
     active: git
   cloud:
@@ -33,7 +33,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh,busrefresh
+        include: "*"
 
 encrypt:
   key: 9f3a7c2d8b41e6fa5c90b2d4f7a8c13e6d2b4f9a7c1e8d3f

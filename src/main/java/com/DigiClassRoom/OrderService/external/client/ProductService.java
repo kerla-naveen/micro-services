@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.DigiClassRoom.OrderService.external.response.ProductResponse;
 @CircuitBreaker(name = "external", fallbackMethod = "fallback")
-@FeignClient(name= "PRODUCT-SERVICE" , path="/product")
+@FeignClient(name= "product-service" , path="/product")
 public interface ProductService {
 
     @PutMapping("/reduceQuantity/{id}")

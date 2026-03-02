@@ -4,15 +4,17 @@ server:
 spring:
   config:
     import:
-      - optional:file:.env
       - optional:configserver:http://localhost:9296 #optimal helps in booting even if configserver down
+  profiles:
+    active:
+      - "default"
   datasource:
-    url: jdbc:mysql://localhost:3306/order_db
+    url: jdbc:mysql://${MYSQLSERVER:localhost:3306}/order_db
     username: app_user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
-    name: ORDER-SERVICE
+    name: order-service
 
   jpa:
     hibernate:

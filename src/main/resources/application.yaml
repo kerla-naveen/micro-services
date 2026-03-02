@@ -7,14 +7,14 @@ spring:
       - configserver:${CONFIGSERVER:http://localhost:9296}
   profiles:
     active:
-      - "prod"
+      - "default"
   datasource:
     url: jdbc:mysql://${MYSQLSERVER:localhost:3306}/payment_db
     username: app_user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
-    name: PAYMENT-SERVICE
+    name: payment-service
 
   jpa:
     hibernate:

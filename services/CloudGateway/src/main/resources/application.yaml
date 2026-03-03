@@ -1,0 +1,90 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: CLOUD-GATEWAY
+  config:
+    import: configserver:${CONFIGSERVER:http://localhost:9296}
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: ORDER-SERVICE
+              uri: lb://ORDER-SERVICE
+              predicates:
+                - Path=/order/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: ORDER-SERVICE
+                    fallbackUri: forward:/orderServiceFallBack
+
+            - id: PAYMENT-SERVICE
+              uri: lb://PAYMENT-SERVICE
+              predicates:
+                - Path=/payment/**
+            - id: PRODUCT-SERVICE
+              uri: lb://PRODUCT-SERVICE
+              predicates:
+                - Path=/product/**
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      connect-timeout: 2s
+      timeout: 1s
+
+#            - id: ORDER-SERVICE-DOCS
+#              uri: lb://ORDER-SERVICE
+#              predicates:
+#                - Path= /order/v3/api-docs
+#                - Path= /order/swagger-ui.html
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      external:
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state:
+          seconds: 10
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health :
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+
+      probes:
+        enabled: true
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: order service
+        url: order/v3/api-docs
+
+      - name: payment service
+        url : payment/v3/api-docs
+
+      - name: product service
+        url: product/v3/api-docs
+

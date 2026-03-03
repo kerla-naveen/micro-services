@@ -1,0 +1,58 @@
+server:
+  port: 8082
+
+spring:
+  config:
+    import:
+      - optional:configserver:http://localhost:9296 #optimal helps in booting even if configserver down
+  profiles:
+    active:
+      - "default"
+  datasource:
+    url: jdbc:mysql://${MYSQLSERVER:localhost:3306}/order_db
+    username: app_user
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: order-service
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # use validate / none in production
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+  cloud:
+    openfeign:
+          circuitbreaker:
+            enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      external:
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state:
+          seconds: 10
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env,beans,threaddump,loggers,circuitbreakers,circuitbreakerevents
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  swagger-ui:
+    path: order/swagger-ui.html
+  api-docs:
+    path: order/v3/api-docs

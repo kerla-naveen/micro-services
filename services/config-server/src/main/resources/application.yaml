@@ -1,0 +1,39 @@
+server:
+  port: 9296
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: git
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/kerla-naveen/spring-app-config
+          clone-on-start: true
+          timeout: 5
+          default-label: main
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+
+eureka:
+  instance:
+    prefer-ip-address : true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url :
+      default-Zone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+encrypt:
+  key: 9f3a7c2d8b41e6fa5c90b2d4f7a8c13e6d2b4f9a7c1e8d3f

@@ -1,0 +1,44 @@
+server:
+  port: 8081
+
+spring:
+  config:
+    import:
+      - configserver:${CONFIGSERVER:http://localhost:9296}
+  profiles:
+    active:
+      - "default"
+  datasource:
+    url: jdbc:mysql://${MYSQLSERVER:localhost:3306}/payment_db
+    username: app_user
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: payment-service
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # use validate / none in production
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+  rabbitmq:
+    host: localhost
+    port : 5672
+    username: guest
+    password: guest
+
+springdoc:
+  swagger-ui:
+    path: payment/swagger-ui.html
+  api-docs:
+    path: payment/v3/api-docs
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

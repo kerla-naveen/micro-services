@@ -161,3 +161,99 @@ spring:
 | `clone-on-start` | Clones the repository when the server starts |
 | `timeout` | Timeout for Git operations |
 | `default-label` | Default Git branch used to fetch configurations |
+
+# Configuration Refresh in Spring Cloud Config
+
+## Problem 001-I: How do services get updated configuration?
+
+When configuration changes in the config repository, client services must refresh their configuration.
+
+Each client service exposes an actuator endpoint that can be used to refresh the configuration.
+
+### Refresh Endpoint
+
+When this endpoint is invoked:
+- The service contacts the **Config Server**
+- It fetches the latest configuration from the Git repository
+- The updated configuration is applied without restarting the service
+
+---
+
+## Problem 001-II: What if there are multiple services?
+
+In a microservices architecture, manually calling the refresh endpoint for every service is not practical.
+
+### Solution: Spring Cloud Bus
+
+Spring Cloud Bus can be used to broadcast configuration updates across multiple services.
+
+It works with a **message broker** such as:
+- RabbitMQ
+- Kafka
+
+### How it Works
+
+1. One service triggers a refresh event.
+2. Spring Cloud Bus publishes this event to the message broker.
+3. All subscribed services receive the event.
+4. Each service automatically calls the refresh mechanism and updates its configuration.
+
+### Architecture Flow
+```Service (Trigger Refresh)
+|
+v
+Spring Cloud Bus
+|
+v
+Message Broker (RabbitMQ / Kafka)
+|
+v
+All Microservices receive refresh event
+|
+v
+Each service refreshes its configuration
+```
+
+This removes the need to manually invoke the refresh endpoint for every service.
+
+---
+
+## Problem 001-III: How does the system know when configuration changes?
+
+A service needs to know **when a configuration change occurs in the Git repository**.
+
+Polling the repository continuously using HTTP requests would be inefficient.
+
+### Solution: GitHub Webhooks
+
+GitHub Webhooks notify the system whenever changes occur in the repository.
+
+### How it Works
+
+1. A developer commits changes to the configuration repository.
+2. GitHub triggers a webhook event.
+3. The webhook sends an HTTP request to the designated service endpoint.
+4. That service publishes a refresh event through **Spring Cloud Bus**.
+5. All services receive the event and refresh their configuration.
+
+### Event Flow
+``` Developer commits config
+|
+v
+GitHub Repository
+|
+v
+GitHub Webhook
+|
+v
+Config Server / Trigger Service
+|
+v
+Spring Cloud Bus
+|
+v 
+All Microservices Refresh Configuration
+```
+
+
+This mechanism ensures that configuration updates are automatically propagated to all services.

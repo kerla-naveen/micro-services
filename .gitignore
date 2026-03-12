@@ -1,0 +1,78 @@
+# ===============================
+# Java / Spring Boot
+# ===============================
+target/
+build/
+out/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+# Gradle
+.gradle/
+build/
+
+# ===============================
+# IntelliJ IDEA
+# ===============================
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# IntelliJ caches
+.idea_modules/
+
+# ===============================
+# OS Files
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Logs
+# ===============================
+logs/
+*.log
+
+# ===============================
+# Environment & Secrets
+# ===============================
+.env
+.env.local
+application-local.yml
+application-secret.yml
+
+# ===============================
+# Docker
+# ===============================
+docker-data/
+*.pid
+
+# ===============================
+# Node (if frontend exists)
+# ===============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===============================
+# VS Code (optional)
+# ===============================
+.vscode/
+
+# ===============================
+# Temporary files
+# ===============================
+*.tmp
+*.swp
+*.swo
+*~

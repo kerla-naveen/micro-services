@@ -1,0 +1,20 @@
+services:
+  network-deploy-service:
+    networks:
+      - microservices
+
+  microservices-base-config:
+    extends:
+      service: network-deploy-service
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+
+  business-services-base-config:
+    extends:
+      service: microservices-base-config
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:9296"
+      EUREKA_SERVER_ADDRESS: "http://serviceregistry:8761/eureka"
+      SPRING_PROFILES_ACTIVE: default

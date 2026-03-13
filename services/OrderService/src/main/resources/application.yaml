@@ -23,6 +23,12 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
   cloud:
     openfeign:
           circuitbreaker:
@@ -46,7 +52,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,env,beans,threaddump,loggers,circuitbreakers,circuitbreakerevents
+        include: "*"
   endpoint:
     health:
       show-details: always

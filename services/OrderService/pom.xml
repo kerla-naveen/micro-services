@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.DigiClassRoom</groupId>
-    <artifactId>OrderService</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>orderService</name>
+    <artifactId>orderservice</artifactId>
+    <version>0.0.1</version>
+    <name>order-service</name>
     <description>Demo project for Spring Boot</description>
     <url/>
     <licenses>
@@ -144,6 +144,21 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+
+                <configuration>
+                    <to>
+                        <image>naveenkerla/${artifactId}</image>
+                        <tags>${project.version}</tags>
+                    </to>
+                </configuration>
+            </plugin>
+
+
         </plugins>
     </build>
 

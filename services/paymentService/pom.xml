@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.DigiClassRoom</groupId>
-	<artifactId>paymentService</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>paymentService</name>
+	<artifactId>paymentservice</artifactId>
+	<version>0.0.1</version>
+	<name>payment-service</name>
 	<packaging>jar</packaging>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -133,6 +133,19 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+
+				<configuration>
+					<to>
+						<image>naveenkerla/${artifactId}</image>
+						<tags>${project.version}</tags>
+					</to>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 

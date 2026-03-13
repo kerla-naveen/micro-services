@@ -10,8 +10,8 @@
     </parent>
     <groupId>com.DigiClassRoom</groupId>
     <artifactId>productservice</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>paymentService</name>
+    <version>0.0.1</version>
+    <name>payment-service</name>
     <description>Demo project for Spring Boot</description>
     <url/>
     <licenses>
@@ -127,6 +127,17 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+
+                <configuration>
+                    <to>
+                        <image>naveenkerla/${artifactId}</image>
+                        <tags>${project.version}</tags>
+                    </to>
                 </configuration>
             </plugin>
         </plugins>

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.DigiClassRoom</groupId>
-	<artifactId>serviceRegistry</artifactId>
+	<artifactId>serviceregistry</artifactId>
 	<version>0.0.1</version>
-	<name>serviceRegistry</name>
+	<name>service-registry</name>
 	<description>seriveRegistry with uerka server</description>
 	<url/>
 	<licenses>
@@ -71,7 +71,7 @@
 
 				<configuration>
 					<to>
-						<image>naveenkerla/serviceregistry</image>
+						<image>naveenkerla/${artifactId}</image>
 						<tags>${project.version}</tags>
 					</to>
 				</configuration>

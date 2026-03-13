@@ -257,3 +257,18 @@ All Microservices Refresh Configuration
 
 
 This mechanism ensures that configuration updates are automatically propagated to all services.
+
+## Problem 002: How to verify which configuration is delivered to a client service?
+
+To confirm which configuration the **Config Server** provides to a specific client service, we can use the **probe endpoints exposed by the Spring Cloud Config Server**.
+
+These endpoints allow developers to inspect the exact configuration that will be sent to a client application.
+
+### Purpose
+This helps to:
+- Verify that the correct configuration is stored in the Git repository.
+- Confirm which configuration profile is being applied.
+- Debug configuration issues before the client service consumes them.
+
+### API Endpoint
+```http://localhost:9296/{application-name}/{profile}```

@@ -147,10 +147,9 @@
 				<artifactId>jib-maven-plugin</artifactId>
 
 				<configuration>
-					<from>openjdk:17</from>
 					<to>
 						<image>naveenkerla/cloudgateway</image>
-						<tag>${project.version}</tag>
+						<tags>${project.version}</tags>
 					</to>
 				</configuration>
 			</plugin>

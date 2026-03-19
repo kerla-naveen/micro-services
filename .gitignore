@@ -29,7 +29,8 @@ out/
 
 # IntelliJ caches
 .idea_modules/
-
+.cursor
+.idea
 # ===============================
 # OS Files
 # ===============================

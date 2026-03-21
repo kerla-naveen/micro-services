@@ -38,7 +38,7 @@ services:
       file: common-config.yaml
       service: network-deploy-service
     environment:
-      EUREKA_SERVER_ADDRESS: "http://serviceregistry:8761/eureka"
+      EUREKA_CLIENT_DEFAULT_ZONE: "http://serviceregistry:8761/eureka"
     healthcheck:
       test: ["CMD","curl","-f", "http://configserver:9296/actuator/health"]
       retries: 5
@@ -146,7 +146,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ../mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pyour_password"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ppassword"]
       interval: 10s
       timeout: 5s
       retries: 3

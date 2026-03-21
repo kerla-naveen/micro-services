@@ -16,5 +16,5 @@ services:
       service: microservices-base-config
     environment:
       SPRING_CONFIG_IMPORT: "configserver:http://configserver:9296"
-      EUREKA_SERVER_ADDRESS: "http://serviceregistry:8761/eureka"
+      EUREKA_CLIENT_DEFAULT_ZONE: "http://serviceregistry:8761/eureka"
       SPRING_PROFILES_ACTIVE: default

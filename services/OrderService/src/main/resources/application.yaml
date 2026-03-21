@@ -9,7 +9,7 @@ spring:
     active:
       - "default"
   datasource:
-    url: jdbc:mysql://${MYSQLSERVER:localhost:3306}/order_db
+    url: jdbc:mysql://localhost:3306/order_db
     username: app_user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver

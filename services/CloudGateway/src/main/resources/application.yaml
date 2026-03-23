@@ -5,29 +5,35 @@ spring:
   application:
     name: cloud-gateway
   config:
-    import:
-      - optional:configserver:http://localhost:9296
+    import: optional:configserver:http://localhost:9296
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:7080/realms/master"
+          jwk-set-uri: "http://localhost:7080/realms/master/protocol/openid-connect/certs"
+
   cloud:
     gateway:
       server:
         webflux:
           routes:
-            - id: ORDER-SERVICE
-              uri: lb://ORDER-SERVICE
+            - id: order-service
+              uri: lb://order-service
               predicates:
                 - Path=/order/**
               filters:
                 - name: CircuitBreaker
                   args:
-                    name: ORDER-SERVICE
+                    name: order-service
                     fallbackUri: forward:/orderServiceFallBack
 
-            - id: PAYMENT-SERVICE
-              uri: lb://PAYMENT-SERVICE
+            - id: payment-service
+              uri: lb://payment-service
               predicates:
                 - Path=/payment/**
-            - id: PRODUCT-SERVICE
-              uri: lb://PRODUCT-SERVICE
+            - id: product-service
+              uri: lb://product-service
               predicates:
                 - Path=/product/**
   data:
@@ -74,6 +80,9 @@ management:
 
       probes:
         enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 
 springdoc:

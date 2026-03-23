@@ -34,6 +34,8 @@ management:
     web:
       exposure:
         include: "*"
-
+  metrics:
+    tags:
+      application: ${spring.application.name}
 encrypt:
   key: 9f3a7c2d8b41e6fa5c90b2d4f7a8c13e6d2b4f9a7c1e8d3f

@@ -3,8 +3,7 @@ server:
 
 spring:
   config:
-    import:
-      - optional:configserver:http://localhost:9296 #optimal helps in booting even if configserver down
+    import: optional:configserver:http://configserver:9296 #optimal helps in booting even if configserver down
   profiles:
     active:
       - "default"
@@ -56,6 +55,9 @@ management:
   endpoint:
     health:
       show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 springdoc:
   swagger-ui:

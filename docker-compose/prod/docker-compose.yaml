@@ -92,25 +92,14 @@ services:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    volumes:
+      - ../observability/grafana/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
     depends_on:
       - gateway
     entrypoint:
       - sh
       - -euc
       - |
-        mkdir -p /etc/grafana/provisioning/datasources
-        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
-        apiVersion: 1
-        datasources:
-          - name: Loki
-            type: loki
-            access: proxy
-            url: http://gateway:3100
-            jsonData:
-              httpHeaderName1: "X-Scope-OrgID"
-            secureJsonData:
-              httpHeaderValue1: "tenant1"
-        EOF
         /run.sh
     ports:
       - "3000:3000"
@@ -214,6 +203,17 @@ services:
       file: common-config.yaml
       service: network-deploy-service
 
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: prometheus
+    ports:
+      - "9091:9090"
+    volumes:
+      - ../observability/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
+    extends:
+      file: common-config.yaml
+      service: network-deploy-service
+
   serviceregistry:
     image: 'naveenkerla/serviceregistry'
     container_name: serviceregistry
@@ -223,21 +223,21 @@ services:
       file: common-config.yaml
       service: network-deploy-service
 
-#  rabbit:
-#    image: 'rabbitmq:4-management'
-#    hostname: rabbitmq
-#    ports:
-#      - "5672:5672" # AMQP protocol (used by Spring Boot)
-#      - "15672:15672" # RabbitMQ management UI
-#    healthcheck:
-#      test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
-#      start_period: 10s
-#    extends:
-#      file: common-config.yaml
-#      service: network-deploy-service
+  rabbit:
+    image: 'rabbitmq:4-management'
+    hostname: rabbitmq
+    ports:
+      - "5672:5672" # AMQP protocol (used by Spring Boot)
+      - "15672:15672" # RabbitMQ management UI
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    extends:
+      file: common-config.yaml
+      service: network-deploy-service
 
   configserver:
     image: 'naveenkerla/configserver'
@@ -251,13 +251,13 @@ services:
       EUREKA_CLIENT_DEFAULT_ZONE: "http://serviceregistry:8761/eureka"
     healthcheck:
       test: ["CMD","curl","-f", "http://configserver:9296/actuator/health"]
-      retries: 5
+      retries: 10
       timeout: 5s
       interval: 10s
       start_period: 10s
-#    depends_on:
-##      rabbit:
-##        condition: service_healthy
+    depends_on:
+      rabbit:
+        condition: service_healthy
 
   orderservice:
     image: 'naveenkerla/orderservice'

@@ -55,6 +55,7 @@ application-secret.yml
 # Docker
 # ===============================
 docker-data/
+.data/
 *.pid
 
 # ===============================
